@@ -62,7 +62,7 @@ export default {
         },
         {
           icon: 'mdi-folder-open',
-          title: 'posts',
+          title: 'Posts',
           to: '/posts'
         }
       ],

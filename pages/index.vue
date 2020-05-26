@@ -2,7 +2,7 @@
   v-layout(column justify-center align-center)
     v-container
       v-data-iterator(
-        :items="posts"
+        :items="entities"
       )
         template(v-slot:default="props")
           v-row
@@ -15,7 +15,7 @@
             )
               v-card(
                 style="height:400px;overflow-y:hidden;"
-                :to="{name: 'section-id', params: { id: (item.slug) } }"
+                :to="{name: 'section-id', params: { section: 'posts', id: (item.slug) } }"
               )
                 v-card-title(class="subheading font-weight-bold" style="word-break: normal") {{ item.title }}
                 v-card-subtitle(class="subheading font-weight-bold") {{ new Date(item.published_at).toLocaleDateString() }}
@@ -33,10 +33,10 @@ export default {
     const template = await $hvnApi.get('posts/template').then((res) => {
       return res.data
     })
-    const posts = await $hvnApi.get('posts').then((res) => {
+    const entities = await $hvnApi.get('posts').then((res) => {
       return res.data
     })
-    return { template, posts }
+    return { template, entities }
   }
 }
 </script>

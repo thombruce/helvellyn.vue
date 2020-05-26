@@ -18,7 +18,7 @@ export default {
     if (payload) {
       return { post: payload }
     } else {
-      return $hvnApi.get('posts/' + params.id).then((res) => {
+      return $hvnApi.get(params.section + '/' + params.id).then((res) => {
         return { post: res.data }
       })
     }
