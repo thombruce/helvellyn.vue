@@ -130,27 +130,37 @@ export default {
    */
   generate: {
     routes() {
+      const headers = {
+        headers: {
+          common: {
+            Accept: 'application/json',
+            'Api-Token':
+              process.env.API_KEY || process.env.npm_package_helvellyn_api_key
+          }
+        }
+      }
       return axios
         .get(
-          (process.env.API_URL || process.env.npm_package_helvellyn_api_url) +
-            '/posts',
-          {
-            headers: {
-              common: {
-                Accept: 'application/json',
-                'Api-Token':
-                  process.env.API_KEY ||
-                  process.env.npm_package_helvellyn_api_key
-              }
-            }
-          }
+          process.env.API_URL || process.env.npm_package_helvellyn_api_url,
+          headers
         )
         .then((res) => {
-          return res.data.map((post) => {
-            return {
-              route: '/posts/' + post.slug,
-              payload: post
-            }
+          const workspace = res.data
+          return workspace.templates.map((template) => {
+            return axios
+              .get(
+                (process.env.API_URL ||
+                  process.env.npm_package_helvellyn_api_url) + template.slug,
+                headers
+              )
+              .then((res) => {
+                return res.data.map((entity) => {
+                  return {
+                    route: '/' + template.slug + '/' + entity.slug,
+                    payload: entity
+                  }
+                })
+              })
           })
         })
     }
