@@ -1,6 +1,8 @@
 import axios from 'axios'
 import colors from 'vuetify/es5/util/colors'
 
+require('dotenv').config()
+
 export default {
   mode: 'universal',
   /*
@@ -10,7 +12,7 @@ export default {
     siteTitle: process.env.npm_package_helvellyn_title,
     siteDescription: process.env.npm_package_helvellyn_description,
     baseUrl: process.env.URL || 'http://localhost:3000',
-    apiUrl: process.env.npm_package_helvellyn_api_url,
+    apiUrl: process.env.API_URL || process.env.npm_package_helvellyn_api_url,
     apiKey: process.env.API_KEY || process.env.npm_package_helvellyn_api_key
   },
   /*
@@ -73,6 +75,7 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxtjs/dotenv',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify'
@@ -128,15 +131,20 @@ export default {
   generate: {
     routes() {
       return axios
-        .get(process.env.npm_package_helvellyn_api_url + '/posts', {
-          headers: {
-            common: {
-              Accept: 'application/json',
-              'Api-Token':
-                process.env.API_KEY || process.env.npm_package_helvellyn_api_key
+        .get(
+          (process.env.API_URL || process.env.npm_package_helvellyn_api_url) +
+            '/posts',
+          {
+            headers: {
+              common: {
+                Accept: 'application/json',
+                'Api-Token':
+                  process.env.API_KEY ||
+                  process.env.npm_package_helvellyn_api_key
+              }
             }
           }
-        })
+        )
         .then((res) => {
           return res.data.map((post) => {
             return {
