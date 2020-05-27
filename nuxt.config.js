@@ -129,7 +129,7 @@ export default {
    ** Generate configuration
    */
   generate: {
-    routes() {
+    async routes() {
       const headers = {
         headers: {
           common: {
@@ -139,30 +139,39 @@ export default {
           }
         }
       }
-      return axios
+
+      const templates = await axios
         .get(
           process.env.API_URL || process.env.npm_package_helvellyn_api_url,
           headers
         )
         .then((res) => {
           const workspace = res.data
-          return workspace.templates.map((template) => {
-            return axios
-              .get(
-                (process.env.API_URL ||
-                  process.env.npm_package_helvellyn_api_url) + template.slug,
-                headers
-              )
-              .then((res) => {
-                return res.data.map((entity) => {
-                  return {
-                    route: '/' + template.slug + '/' + entity.slug,
-                    payload: entity
-                  }
-                })
-              })
-          })
+          return workspace.templates
         })
+
+      const entities = await Promise.all(
+        templates.map((template) => {
+          return axios
+            .get(
+              (process.env.API_URL ||
+                process.env.npm_package_helvellyn_api_url) +
+                '/' +
+                template.slug,
+              headers
+            )
+            .then((res) => {
+              return res.data.map((entity) => {
+                return {
+                  route: '/' + template.slug + '/' + entity.slug,
+                  payload: entity
+                }
+              })
+            })
+        })
+      )
+
+      return entities.flat()
     }
     // NOTE: `nuxt export` sounds promising: https://noti.st/debbie/V5iLun/slides
   }
