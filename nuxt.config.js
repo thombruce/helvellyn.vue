@@ -150,6 +150,13 @@ export default {
           return workspace.templates
         })
 
+      const templateRoutes = templates.map((template) => {
+        return {
+          route: '/' + template.slug,
+          payload: template
+        }
+      })
+
       const entities = await Promise.all(
         templates.map((template) => {
           return axios
@@ -171,7 +178,7 @@ export default {
         })
       )
 
-      return entities.flat()
+      return templateRoutes.concat(entities.flat())
     }
     // NOTE: `nuxt export` sounds promising: https://noti.st/debbie/V5iLun/slides
   }

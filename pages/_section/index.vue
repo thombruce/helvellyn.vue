@@ -15,7 +15,7 @@
             )
               v-card(
                 style="height:400px;overflow-y:hidden;"
-                :to="{name: 'section-id', params: { section: params.section, id: (item.slug) } }"
+                :to="{name: 'section-id', params: { section: template.slug, id: (item.slug) } }"
               )
                 v-card-title(class="subheading font-weight-bold" style="word-break: normal") {{ item.title }}
                 v-card-subtitle(class="subheading font-weight-bold") {{ new Date(item.published_at).toLocaleDateString() }}
