@@ -43,9 +43,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.overflow-x-scroll {
-  overflow-x: scroll;
-}
-</style>

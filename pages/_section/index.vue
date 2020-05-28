@@ -23,28 +23,21 @@
 </template>
 
 <script>
-import PostContent from '~/components/PostContent'
-
 export default {
-  components: {
-    PostContent
-  },
-  async asyncData({ params, app: { $hvnApi } }) {
-    const template = await $hvnApi
-      .get(params.section + '/template')
-      .then((res) => {
+  async asyncData({ params, app: { $hvnApi }, payload }) {
+    if (payload) {
+      return { template: payload }
+    } else {
+      const template = await $hvnApi
+        .get(params.section + '/template')
+        .then((res) => {
+          return res.data
+        })
+      const entities = await $hvnApi.get(params.section).then((res) => {
         return res.data
       })
-    const entities = await $hvnApi.get(params.section).then((res) => {
-      return res.data
-    })
-    return { template, entities }
+      return { template, entities }
+    }
   }
 }
 </script>
-
-<style lang="scss">
-.overflow-x-scroll {
-  overflow-x: scroll;
-}
-</style>
