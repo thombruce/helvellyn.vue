@@ -1,10 +1,8 @@
 <template lang="pug">
   v-layout(column justify-center align-center)
-    v-flex(xs12 sm8 md6)
-      v-card.mb-5(flat tile)
-        v-card-title.headline {{ post.title }}
-        v-card-text
-          post-content(:content="post.content.html")
+    v-container
+      h2.headline {{ post.title }}
+      post-content(:content="post.content.html")
 </template>
 
 <script>
