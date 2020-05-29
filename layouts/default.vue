@@ -13,9 +13,9 @@ client-only
       fixed
       app
     )
-      v-list
+      v-list(v-if="workspace")
         v-list-item(
-          v-for="(item, i) in items"
+          v-for="(item, i) in menuItems"
           :key="i"
           :to="item.to"
           router
@@ -54,20 +54,38 @@ export default {
   data() {
     return {
       drawer: null, // [1]
-      items: [
+      miniVariant: false,
+      title: process.env.siteTitle,
+      workspace: null
+    }
+  },
+  computed: {
+    menuItems() {
+      const baseArr = [
         {
           icon: 'mdi-apps',
           title: 'Home',
           to: '/'
-        },
-        {
-          icon: 'mdi-folder-open',
-          title: 'Posts',
-          to: '/posts'
         }
-      ],
-      miniVariant: false,
-      title: process.env.siteTitle
+      ]
+      const sections = this.workspace.templates.map((template) => {
+        return {
+          icon: 'mdi-folder-open',
+          title: template.plural,
+          to: '/' + template.slug
+        }
+      })
+      return baseArr.concat(sections)
+    }
+  },
+  created() {
+    this.fetchWorkspace()
+  },
+  methods: {
+    async fetchWorkspace() {
+      await this.$hvnApi.get().then((res) => {
+        this.workspace = res.data
+      })
     }
   }
 }
