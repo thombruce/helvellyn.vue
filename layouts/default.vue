@@ -1,11 +1,13 @@
 <template lang="pug">
 client-only
   v-app(slot="placeholder" :style="{background: $vuetify.theme.themes['light'].primary}")
+    div
+  v-app(v-if="loading" :style="{background: $vuetify.theme.themes['light'].primary}")
     v-content
       v-container.d-flex.justify-center.align-center.fill-height(fluid)
         v-progress-circular(indeterminate size="70" width="7" color="white")
         nuxt.d-none
-  v-app(:dark="$vuetify.theme.dark")
+  v-app(v-else :dark="$vuetify.theme.dark")
     v-navigation-drawer(
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -56,7 +58,8 @@ export default {
       drawer: null, // [1]
       miniVariant: false,
       title: process.env.siteTitle,
-      workspace: null
+      workspace: null,
+      loading: true
     }
   },
   computed: {
@@ -85,6 +88,7 @@ export default {
     async fetchWorkspace() {
       await this.$hvnApi.get().then((res) => {
         this.workspace = res.data
+        this.loading = false
       })
     }
   }
