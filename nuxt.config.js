@@ -103,10 +103,10 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken3
+          primary: colors[process.env.PRIMARY_COLOR || 'blue'].darken1
         },
         light: {
-          primary: colors.blue.darken2
+          primary: colors[process.env.PRIMARY_COLOR || 'blue']
         }
       }
     }
