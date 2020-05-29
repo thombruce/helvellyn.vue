@@ -9,8 +9,9 @@ export default {
    ** Custom context variables
    */
   env: {
-    siteTitle: process.env.npm_package_helvellyn_title,
-    siteDescription: process.env.npm_package_helvellyn_description,
+    siteTitle: process.env.TITLE || process.env.npm_package_helvellyn_title,
+    siteDescription:
+      process.env.DESCRIPTION || process.env.npm_package_helvellyn_description,
     baseUrl: process.env.URL || 'http://localhost:3000',
     apiUrl: process.env.API_URL || process.env.npm_package_helvellyn_api_url,
     apiKey: process.env.API_KEY || process.env.npm_package_helvellyn_api_key

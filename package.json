@@ -13,10 +13,10 @@
     "test": "jest"
   },
   "helvellyn": {
-    "title": "TODO: Title",
-    "description": "TODO: Description",
-    "api_url": "TODO: API URL",
-    "api_key": "TODO: API Key"
+    "title": "Helvellyn.vue",
+    "description": "A Helvellyn Nuxt template.",
+    "api_url": "[TODO: API URL]",
+    "api_key": "[TODO: API Key]"
   },
   "lint-staged": {
     "*.{js,vue}": "yarn lint"
