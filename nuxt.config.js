@@ -173,7 +173,9 @@ export default {
         })
       )
 
-      return templateRoutes.concat(entities.flat())
+      const entityRoutes = (entities || []).flat()
+
+      return templateRoutes.concat(entityRoutes)
     }
     // NOTE: `nuxt export` sounds promising: https://noti.st/debbie/V5iLun/slides
   }
